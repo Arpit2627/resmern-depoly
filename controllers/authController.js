@@ -403,7 +403,10 @@ export const getAllUserController = async (req, res) => {
 export const getAllStaffController = async (req, res) => {
   try {
     const id=req.params.id;
-    const Users = await userModel.find({branch:id});
+    const Users = await userModel.find({ $and: [
+      { branch: id }, // Match documents where the "branch" field equals the value of "id"
+      { role: 3 }     // Match documents where the "role" field equals 3
+    ]});
     res.json(Users);
   } catch (error) {
     console.log(error);
